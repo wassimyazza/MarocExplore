@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\DirectionController;
+use App\Http\Controllers\api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +17,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::apiResource('users',UserController::class)
+
+Route::get("/users",[UserController::class, "index"]);
+Route::get("/users/{id}",[UserController::class, "show"]);
+Route::post("/users",[AuthController::class, "register"]);
+Route::post("/login",[AuthController::class, "login"]);
+Route::post('/add-direction',[DirectionController::class, "addDirection"]);
+Route::get('/directions',[DirectionController::class, "index"]);
+
+Route::group(['middleware' => ['auth:sanctum']],function (){
+    Route::delete("/users/{id}",[UserController::class, "destroy"]);
+    Route::put("/users/{id}",[UserController::class, "update"]);
+    Route::post("/logout",[AuthController::class, "logout"]);
 });

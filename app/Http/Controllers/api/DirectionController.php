@@ -46,5 +46,9 @@ class DirectionController extends Controller
         ],201);
     }
 
+    public function search(){
+        
+    }
+
     
 }
